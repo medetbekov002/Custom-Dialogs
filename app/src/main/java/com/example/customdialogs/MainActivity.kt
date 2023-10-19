@@ -5,12 +5,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
 import android.view.Window
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import com.example.customdialogs.databinding.ActivityMainBinding
+import com.example.customdialogs.databinding.CustomDialogLayoutBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,9 +18,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val btnLogOut : Button = findViewById(R.id.btnLogOut)
-
-        btnLogOut.setOnClickListener {
+        binding.btnLogOut.setOnClickListener {
             val message: String? = "Are you sure you want to log out"
             showCustomDialogBox(message)
         }
@@ -30,22 +26,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCustomDialogBox(message: String?) {
         val dialog = Dialog(this)
+        val dialogBinding = CustomDialogLayoutBinding.inflate(layoutInflater)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.custom_dialog_layout)
+        dialog.setContentView(dialogBinding.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val tvMessage: TextView = dialog.findViewById(R.id.tv_message)
-        val btnYes: Button = dialog.findViewById(R.id.btnYes)
-        val btnNo: Button = dialog.findViewById(R.id.btnNo)
+        dialogBinding.tvMessage.text = message
 
-        tvMessage.text = message
-
-        btnYes.setOnClickListener {
+        dialogBinding.btnYes.setOnClickListener {
             Toast.makeText(this, "click on Yes", Toast.LENGTH_LONG).show()
         }
 
-        btnNo.setOnClickListener {
+        dialogBinding.btnNo.setOnClickListener {
             dialog.dismiss()
         }
 
